@@ -11,32 +11,222 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
   <style>
-    :root{--green:#1b8f4b;--dark:#0f2f1f;--light:#f4fff9;}
+    :root{
+      --green:#1b8f4b;
+      --green-soft:#e9f7f0;
+      --dark:#0f2f1f;
+      --light:#f4fff9;
+      --shadow:0 15px 35px rgba(0,0,0,.08);
+    }
+
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Poppins',sans-serif;background:#ffffff;color:#333;line-height:1.6;}
-    header{background:linear-gradient(135deg,var(--dark),var(--green));color:#fff;padding:20px 8%;display:flex;justify-content:space-between;align-items:center;}
-    header h1{font-size:1.8rem;font-weight:700;}
-    nav a{color:#fff;margin-left:20px;text-decoration:none;font-weight:500;}
-    nav a:hover{text-decoration:underline}
-    .hero{padding:80px 8%;background:var(--light);display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;}
-    .hero h2{font-size:2.5rem;color:var(--dark);margin-bottom:20px;}
-    .hero p{margin-bottom:25px}
-    .btn{background:var(--green);color:#fff;padding:12px 28px;border:none;border-radius:30px;cursor:pointer;font-size:1rem;}
-    .btn:hover{background:#15713b}
-    section{padding:70px 8%;}
-    .section-title{text-align:center;margin-bottom:50px;}
-    .section-title h3{font-size:2rem;color:var(--dark);}
-    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
-    .card{background:#fff;border-radius:15px;padding:30px;box-shadow:0 10px 25px rgba(0,0,0,0.08);transition:transform .3s;}
-    .card:hover{transform:translateY(-6px)}
-    .card h4{color:var(--green);margin-bottom:15px;}
-    .about{background:var(--light);border-radius:20px;padding:40px;}
-    .contact{max-width:600px;margin:auto;}
-    .contact input,.contact textarea{width:100%;padding:14px;margin-bottom:15px;border-radius:8px;border:1px solid #ccc;font-family:'Poppins',sans-serif;}
-    footer{background:var(--dark);color:#fff;text-align:center;padding:25px 8%;margin-top:40px;}
-    @media(max-width:900px){.hero{grid-template-columns:1fr}}
+
+    body{
+      font-family:'Poppins',sans-serif;
+      background:#ffffff;
+      color:#333;
+      line-height:1.7;
+    }
+
+    header{
+      background:linear-gradient(135deg,var(--dark),var(--green));
+      color:#fff;
+      padding:22px 8%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:var(--shadow);
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+
+    header h1{
+      font-size:1.9rem;
+      font-weight:700;
+      letter-spacing:1px;
+    }
+
+    nav a{
+      color:#fff;
+      margin-left:22px;
+      text-decoration:none;
+      font-weight:500;
+      position:relative;
+    }
+
+    nav a::after{
+      content:'';
+      position:absolute;
+      left:0;
+      bottom:-6px;
+      width:0;
+      height:2px;
+      background:#fff;
+      transition:.3s;
+    }
+
+    nav a:hover::after{width:100%}
+
+    .hero{
+      padding:90px 8%;
+      background:linear-gradient(180deg,var(--light),#ffffff);
+      display:grid;
+      grid-template-columns:1.2fr 1fr;
+      gap:50px;
+      align-items:center;
+    }
+
+    .hero h2{
+      font-size:2.8rem;
+      color:var(--dark);
+      margin-bottom:20px;
+      line-height:1.2;
+    }
+
+    .hero p{
+      margin-bottom:30px;
+      font-size:1.05rem;
+    }
+
+    .hero img{
+      width:100%;
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      transition:.4s;
+    }
+
+    .hero img:hover{transform:scale(1.03)}
+
+    .btn{
+      background:linear-gradient(135deg,var(--green),#25b86b);
+      color:#fff;
+      padding:14px 32px;
+      border:none;
+      border-radius:40px;
+      cursor:pointer;
+      font-size:1rem;
+      font-weight:500;
+      box-shadow:0 8px 20px rgba(27,143,75,.3);
+      transition:.3s;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(27,143,75,.4);
+    }
+
+    section{padding:80px 8%}
+
+    .section-title{
+      text-align:center;
+      margin-bottom:55px;
+    }
+
+    .section-title h3{
+      font-size:2.2rem;
+      color:var(--dark);
+      display:inline-block;
+      position:relative;
+    }
+
+    .section-title h3::after{
+      content:'';
+      width:60%;
+      height:4px;
+      background:var(--green);
+      display:block;
+      margin:10px auto 0;
+      border-radius:5px;
+    }
+
+    .services{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:30px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:18px;
+      padding:35px 30px;
+      box-shadow:var(--shadow);
+      transition:.35s;
+      border:1px solid #f0f0f0;
+    }
+
+    .card:hover{
+      transform:translateY(-10px);
+      box-shadow:0 20px 45px rgba(0,0,0,.12);
+    }
+
+    .card h4{
+      color:var(--green);
+      margin-bottom:15px;
+      font-size:1.25rem;
+    }
+
+    .about{
+      background:linear-gradient(135deg,var(--green-soft),#ffffff);
+      border-radius:25px;
+      padding:50px;
+      box-shadow:var(--shadow);
+      font-size:1.05rem;
+    }
+
+    .contact{
+      max-width:620px;
+      margin:auto;
+      background:#fff;
+      padding:40px;
+      border-radius:20px;
+      box-shadow:var(--shadow);
+    }
+
+    .contact input,
+    .contact textarea{
+      width:100%;
+      padding:15px 16px;
+      margin-bottom:18px;
+      border-radius:10px;
+      border:1px solid #ddd;
+      font-family:'Poppins',sans-serif;
+      transition:.3s;
+    }
+
+    .contact input:focus,
+    .contact textarea:focus{
+      outline:none;
+      border-color:var(--green);
+      box-shadow:0 0 0 3px rgba(27,143,75,.15);
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+
+    tbody tr:hover{background:#f9fdfb}
+
+    footer{
+      background:linear-gradient(135deg,var(--dark),#123b28);
+      color:#fff;
+      text-align:center;
+      padding:30px 8%;
+      margin-top:60px;
+      font-size:.95rem;
+    }
+
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr;text-align:center}
+      .hero img{margin-top:30px}
+    }
   </style>
 </head>
+
 <body>
 
 <header>
@@ -58,7 +248,7 @@
     <button class="btn" onclick="document.getElementById('contact').scrollIntoView()">Get in Touch</button>
   </div>
   <div>
-    <img src="https://via.placeholder.com/450x300" alt="Technology" style="width:100%;border-radius:20px">
+    <img src="https://via.placeholder.com/450x300" alt="Technology">
   </div>
 </section>
 
@@ -75,15 +265,15 @@
 <section id="about">
   <div class="section-title"><h3>About Us</h3></div>
   <div class="about">
-    <p><strong>INDEX ONE MEGA</strong> is a technology-focused company committed to delivering practical, affordable, and sustainable digital solutions. We combine technical expertise with innovation to support institutions, businesses, and individuals.</p>
+    <p><strong>INDEX ONE MEGA</strong> is a technology-focused company committed to delivering practical, affordable, and sustainable digital solutions.</p>
   </div>
 </section>
 
 <section id="contact">
   <div class="section-title"><h3>Contact Us</h3></div>
   <div class="contact">
-    <input type="text" id="name" placeholder="Your Name" />
-    <input type="email" id="email" placeholder="Your Email" />
+    <input type="text" id="name" placeholder="Your Name">
+    <input type="email" id="email" placeholder="Your Email">
     <textarea id="message" rows="5" placeholder="Your Message"></textarea>
     <button class="btn" onclick="sendMessage()">Send Message</button>
     <p id="status" style="margin-top:10px"></p>
@@ -92,22 +282,24 @@
 
 <section id="admin">
   <div class="section-title"><h3>Admin Dashboard</h3></div>
+
   <div id="loginBox" class="contact">
-    <h4 style="color:var(--green);margin-bottom:10px">Admin Login</h4>
-    <input type="text" id="adminUser" placeholder="Admin Username" />
-    <input type="password" id="adminPass" placeholder="Admin Password" />
+    <h4 style="color:var(--green);margin-bottom:15px">Admin Login</h4>
+    <input type="text" id="adminUser" placeholder="Admin Username">
+    <input type="password" id="adminPass" placeholder="Admin Password">
     <button class="btn" onclick="adminLogin()">Login</button>
     <p id="loginStatus"></p>
   </div>
-  <div id="dashboard" style="display:none;margin-top:30px">
+
+  <div id="dashboard" style="display:none;margin-top:40px">
     <h4 style="margin-bottom:20px;color:var(--green)">Contact Messages</h4>
-    <table style="width:100%;border-collapse:collapse;background:#fff">
+    <table>
       <thead>
         <tr style="background:var(--green);color:#fff">
-          <th style="padding:10px">Name</th>
-          <th style="padding:10px">Email</th>
-          <th style="padding:10px">Message</th>
-          <th style="padding:10px">Time</th>
+          <th style="padding:12px">Name</th>
+          <th style="padding:12px">Email</th>
+          <th style="padding:12px">Message</th>
+          <th style="padding:12px">Time</th>
         </tr>
       </thead>
       <tbody id="messages"></tbody>
@@ -137,6 +329,7 @@ const firebaseConfig = {
   measurementId: "G-92L5WS829C"
 
 };
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
@@ -145,10 +338,19 @@ function sendMessage(){
   const email = document.getElementById('email').value;
   const message = document.getElementById('message').value;
   const status = document.getElementById('status');
-  if(!name || !email || !message){ status.innerText='Please fill in all fields.'; status.style.color='red'; return; }
-  db.ref('contacts').push({name,email,message,time:new Date().toLocaleString()}).then(()=>{
-    status.innerText='Message sent successfully!'; status.style.color='green';
-    document.getElementById('name').value=''; document.getElementById('email').value=''; document.getElementById('message').value='';
+
+  if(!name || !email || !message){
+    status.innerText='Please fill in all fields.';
+    status.style.color='red';
+    return;
+  }
+
+  db.ref('contacts').push({
+    name,email,message,time:new Date().toLocaleString()
+  }).then(()=>{
+    status.innerText='Message sent successfully!';
+    status.style.color='green';
+    name.value=email.value=message.value='';
   });
 }
 
@@ -156,27 +358,32 @@ const ADMIN_USER='admin';
 const ADMIN_PASS='admin123';
 
 function adminLogin(){
-  const u=document.getElementById('adminUser').value;
-  const p=document.getElementById('adminPass').value;
-  const status=document.getElementById('loginStatus');
+  const u=adminUser.value;
+  const p=adminPass.value;
+  const status=loginStatus;
+
   if(u===ADMIN_USER && p===ADMIN_PASS){
     localStorage.setItem('isAdmin','true');
-    status.innerText='Login successful'; status.style.color='green';
-    document.getElementById('loginBox').style.display='none';
-    document.getElementById('dashboard').style.display='block';
-    document.getElementById('adminNav').style.display='inline';
-    document.getElementById('logoutNav').style.display='inline';
+    loginBox.style.display='none';
+    dashboard.style.display='block';
+    adminNav.style.display='inline';
+    logoutNav.style.display='inline';
+    status.innerText='Login successful';
+    status.style.color='green';
     loadMessages();
-  } else { status.innerText='Invalid credentials'; status.style.color='red'; }
+  }else{
+    status.innerText='Invalid credentials';
+    status.style.color='red';
+  }
 }
 
 function logoutAdmin(){
   localStorage.removeItem('isAdmin');
-  document.getElementById('dashboard').style.display='none';
-  document.getElementById('loginBox').style.display='block';
-  document.getElementById('adminNav').style.display='none';
-  document.getElementById('logoutNav').style.display='none';
-  window.location.hash='#home';
+  dashboard.style.display='none';
+  loginBox.style.display='block';
+  adminNav.style.display='none';
+  logoutNav.style.display='none';
+  location.hash='#home';
 }
 
 function loadMessages(){
@@ -185,19 +392,23 @@ function loadMessages(){
     tbody.innerHTML='';
     snap.forEach(child=>{
       const d=child.val();
-      const tr=document.createElement('tr');
-      tr.innerHTML=`<td style="padding:8px;border-bottom:1px solid #ddd">${d.name}</td><td style="padding:8px;border-bottom:1px solid #ddd">${d.email}</td><td style="padding:8px;border-bottom:1px solid #ddd">${d.message}</td><td style="padding:8px;border-bottom:1px solid #ddd">${d.time}</td>`;
-      tbody.appendChild(tr);
+      tbody.innerHTML+=`
+        <tr>
+          <td style="padding:10px;border-bottom:1px solid #eee">${d.name}</td>
+          <td style="padding:10px;border-bottom:1px solid #eee">${d.email}</td>
+          <td style="padding:10px;border-bottom:1px solid #eee">${d.message}</td>
+          <td style="padding:10px;border-bottom:1px solid #eee">${d.time}</td>
+        </tr>`;
     });
   });
 }
 
 window.onload=()=>{
   if(localStorage.getItem('isAdmin')==='true'){
-    document.getElementById('adminNav').style.display='inline';
-    document.getElementById('logoutNav').style.display='inline';
-    document.getElementById('loginBox').style.display='none';
-    document.getElementById('dashboard').style.display='block';
+    adminNav.style.display='inline';
+    logoutNav.style.display='inline';
+    loginBox.style.display='none';
+    dashboard.style.display='block';
     loadMessages();
   }
 };
