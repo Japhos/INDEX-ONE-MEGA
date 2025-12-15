@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INDEX ONE MEGA</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <style>
+    :root{--green:#1b8f4b;--dark:#0f2f1f;--light:#f4fff9;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Poppins',sans-serif;background:#ffffff;color:#333;line-height:1.6;}
+    header{background:linear-gradient(135deg,var(--dark),var(--green));color:#fff;padding:20px 8%;display:flex;justify-content:space-between;align-items:center;}
+    header h1{font-size:1.8rem;font-weight:700;}
+    nav a{color:#fff;margin-left:20px;text-decoration:none;font-weight:500;}
+    nav a:hover{text-decoration:underline}
+    .hero{padding:80px 8%;background:var(--light);display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;}
+    .hero h2{font-size:2.5rem;color:var(--dark);margin-bottom:20px;}
+    .hero p{margin-bottom:25px}
+    .btn{background:var(--green);color:#fff;padding:12px 28px;border:none;border-radius:30px;cursor:pointer;font-size:1rem;}
+    .btn:hover{background:#15713b}
+    section{padding:70px 8%;}
+    .section-title{text-align:center;margin-bottom:50px;}
+    .section-title h3{font-size:2rem;color:var(--dark);}
+    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
+    .card{background:#fff;border-radius:15px;padding:30px;box-shadow:0 10px 25px rgba(0,0,0,0.08);transition:transform .3s;}
+    .card:hover{transform:translateY(-6px)}
+    .card h4{color:var(--green);margin-bottom:15px;}
+    .about{background:var(--light);border-radius:20px;padding:40px;}
+    .contact{max-width:600px;margin:auto;}
+    .contact input,.contact textarea{width:100%;padding:14px;margin-bottom:15px;border-radius:8px;border:1px solid #ccc;font-family:'Poppins',sans-serif;}
+    footer{background:var(--dark);color:#fff;text-align:center;padding:25px 8%;margin-top:40px;}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>INDEX ONE MEGA</h1>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="#admin" id="adminNav" style="display:none">Admin</a>
+    <a href="#" id="logoutNav" style="display:none" onclick="logoutAdmin()">Logout</a>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div>
+    <h2>Innovative Digital & Technical Solutions</h2>
+    <p>INDEX ONE MEGA delivers professional ICT, networking, automation, and digital solutions designed for growth, efficiency, and sustainability.</p>
+    <button class="btn" onclick="document.getElementById('contact').scrollIntoView()">Get in Touch</button>
+  </div>
+  <div>
+    <img src="https://via.placeholder.com/450x300" alt="Technology" style="width:100%;border-radius:20px">
+  </div>
+</section>
+
+<section id="services">
+  <div class="section-title"><h3>Our Services</h3></div>
+  <div class="services">
+    <div class="card"><h4>ICT Consultancy</h4><p>Professional advisory services in ICT planning, deployment, and management.</p></div>
+    <div class="card"><h4>Networking & CCTV</h4><p>Reliable network infrastructure and modern surveillance solutions.</p></div>
+    <div class="card"><h4>Web & Systems Development</h4><p>Modern websites and systems built with scalable technologies.</p></div>
+    <div class="card"><h4>Automation & IoT</h4><p>Smart solutions using sensors, controllers, and cloud platforms.</p></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-title"><h3>About Us</h3></div>
+  <div class="about">
+    <p><strong>INDEX ONE MEGA</strong> is a technology-focused company committed to delivering practical, affordable, and sustainable digital solutions. We combine technical expertise with innovation to support institutions, businesses, and individuals.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-title"><h3>Contact Us</h3></div>
+  <div class="contact">
+    <input type="text" id="name" placeholder="Your Name" />
+    <input type="email" id="email" placeholder="Your Email" />
+    <textarea id="message" rows="5" placeholder="Your Message"></textarea>
+    <button class="btn" onclick="sendMessage()">Send Message</button>
+    <p id="status" style="margin-top:10px"></p>
+  </div>
+</section>
+
+<section id="admin">
+  <div class="section-title"><h3>Admin Dashboard</h3></div>
+  <div id="loginBox" class="contact">
+    <h4 style="color:var(--green);margin-bottom:10px">Admin Login</h4>
+    <input type="text" id="adminUser" placeholder="Admin Username" />
+    <input type="password" id="adminPass" placeholder="Admin Password" />
+    <button class="btn" onclick="adminLogin()">Login</button>
+    <p id="loginStatus"></p>
+  </div>
+  <div id="dashboard" style="display:none;margin-top:30px">
+    <h4 style="margin-bottom:20px;color:var(--green)">Contact Messages</h4>
+    <table style="width:100%;border-collapse:collapse;background:#fff">
+      <thead>
+        <tr style="background:var(--green);color:#fff">
+          <th style="padding:10px">Name</th>
+          <th style="padding:10px">Email</th>
+          <th style="padding:10px">Message</th>
+          <th style="padding:10px">Time</th>
+        </tr>
+      </thead>
+      <tbody id="messages"></tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 INDEX ONE MEGA. All Rights Reserved.</p>
+</footer>
+
+<script>
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "SENDER_ID",
+  appId: "APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function sendMessage(){
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const message = document.getElementById('message').value;
+  const status = document.getElementById('status');
+  if(!name || !email || !message){ status.innerText='Please fill in all fields.'; status.style.color='red'; return; }
+  db.ref('contacts').push({name,email,message,time:new Date().toLocaleString()}).then(()=>{
+    status.innerText='Message sent successfully!'; status.style.color='green';
+    document.getElementById('name').value=''; document.getElementById('email').value=''; document.getElementById('message').value='';
+  });
+}
+
+const ADMIN_USER='admin';
+const ADMIN_PASS='admin123';
+
+function adminLogin(){
+  const u=document.getElementById('adminUser').value;
+  const p=document.getElementById('adminPass').value;
+  const status=document.getElementById('loginStatus');
+  if(u===ADMIN_USER && p===ADMIN_PASS){
+    localStorage.setItem('isAdmin','true');
+    status.innerText='Login successful'; status.style.color='green';
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    document.getElementById('adminNav').style.display='inline';
+    document.getElementById('logoutNav').style.display='inline';
+    loadMessages();
+  } else { status.innerText='Invalid credentials'; status.style.color='red'; }
+}
+
+function logoutAdmin(){
+  localStorage.removeItem('isAdmin');
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('loginBox').style.display='block';
+  document.getElementById('adminNav').style.display='none';
+  document.getElementById('logoutNav').style.display='none';
+  window.location.hash='#home';
+}
+
+function loadMessages(){
+  const tbody=document.getElementById('messages');
+  db.ref('contacts').on('value',snap=>{
+    tbody.innerHTML='';
+    snap.forEach(child=>{
+      const d=child.val();
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td style="padding:8px;border-bottom:1px solid #ddd">${d.name}</td><td style="padding:8px;border-bottom:1px solid #ddd">${d.email}</td><td style="padding:8px;border-bottom:1px solid #ddd">${d.message}</td><td style="padding:8px;border-bottom:1px solid #ddd">${d.time}</td>`;
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+window.onload=()=>{
+  if(localStorage.getItem('isAdmin')==='true'){
+    document.getElementById('adminNav').style.display='inline';
+    document.getElementById('logoutNav').style.display='inline';
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    loadMessages();
+  }
+};
+</script>
+
+</body>
+</html>
