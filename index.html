@@ -477,22 +477,37 @@ function logoutAdmin(){
 
 function loadMessages(){
   const tbody=document.getElementById('messages');
+
   db.ref('contacts').on('value',snap=>{
     tbody.innerHTML='';
     snap.forEach(child=>{
       const d=child.val();
+      const key=child.key; // 🔑 message ID
+
       tbody.innerHTML+=`
         <tr>
           <td style="padding:10px;border-bottom:1px solid #eee">${d.name}</td>
           <td style="padding:10px;border-bottom:1px solid #eee">${d.email}</td>
           <td style="padding:10px;border-bottom:1px solid #eee">${d.message}</td>
           <td style="padding:10px;border-bottom:1px solid #eee">${d.time}</td>
+          <td style="padding:10px;border-bottom:1px solid #eee">
+            <button onclick="deleteMessage('${key}')"
+              style="background:red;color:#fff;border:none;padding:5px 10px;cursor:pointer;">
+              Delete
+            </button>
+          </td>
         </tr>`;
     });
   });
 }
 
-window.onload=()=>{
+function deleteMessage(key){
+  if(confirm('Delete this message?')){
+    db.ref('contacts/' + key).remove();
+  }
+}
+
+  window.onload=()=>{
   if(localStorage.getItem('isAdmin')==='true'){
     adminNav.style.display='inline';
     logoutNav.style.display='inline';
